@@ -56,7 +56,9 @@ window.complog_filter_cdo = function (all=true) {
 					if (found_items.find( (v) => { v == items[i].itemsRequired[j] } ) === undefined)
 						qualified = false;
 				}
-				found_items[found_items.length] = i;
+				if (qualified) {
+					found_items[found_items.length] = i;
+				}
 			}
 		}
 	}
