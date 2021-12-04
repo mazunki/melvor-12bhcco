@@ -16,7 +16,12 @@ window.melvor_hcco_is_cdo_available = function (id) {
 	for (let i=0; i<MONSTERS.length; i++) {
 		monster_loot = MONSTERS[i].lootTable;
 		for (let j=0; j<monster_loot.length; j++) {
-			if (monster_loot[j][0] === id) return true
+			if (monster_loot[j][0] === id) return true;
+			if (monster_loot[j][0].canOpen) {
+				for (let k=0; monster_loot[j][0].dropTable.length; k++) {
+					if (monster_loot[j][0].dropTable[k] === id) return true; // no recursion here, since it's not implemented in-game either
+				}
+			}
 		}
 	}
 	return false;
@@ -50,5 +55,5 @@ var add_filter_button = () => {
 	}
 };
 
-setTimeout( () => setInterval(add_filter_button, 200), 1000 );
+setTimeout( () => setInterval(add_filter_button, 1000), 5000 );
 
