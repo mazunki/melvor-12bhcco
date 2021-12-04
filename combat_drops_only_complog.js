@@ -1,4 +1,4 @@
-// ==UserScript=``
+// ==UserScript==
 // @name         Combat Drops Only Complog
 // @namespace    melvor_hcco
 // @version      0.1.1
