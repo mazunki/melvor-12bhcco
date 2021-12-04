@@ -1,4 +1,4 @@
-// ==UserScript=
+// ==UserScript==
 // @name         Precise chance to hit
 // @namespace    melvor_hcco
 // @version      0.1.1
