@@ -51,6 +51,13 @@ var add_filter_button = () => {
 		});
 		if ($("#complog_cdo").length === 0) {
 			cdoButton.appendTo(buttonRow);
+			let cdo_counter = 0;
+			for (let i=0; i<items.length; i++) {
+				if (melvor_hcco_is_cdo_available(i))
+					cdo_counter++;
+			}
+			console.log(cdo_counter);
+			$("#item-log-comp-count").append(' / <span id="item-log-cdo-count">' + cdo_counter + '</span>');
 		}
 	}
 };
