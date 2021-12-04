@@ -12,55 +12,86 @@
 
 // Made for version 1.0
 
-window.melvor_hcco_is_cdo_available = function (id) {
+window.melvor_hcco_is_monster_loot = function (id) {
 	for (let i=0; i<MONSTERS.length; i++) {
 		monster_loot = MONSTERS[i].lootTable;
 		for (let j=0; j<monster_loot.length; j++) {
 			if (monster_loot[j][0] === id) return true;
-			if (monster_loot[j][0].canOpen) {
-				for (let k=0; monster_loot[j][0].dropTable.length; k++) {
-					if (monster_loot[j][0].dropTable[k] === id) return true; // no recursion here, since it's not implemented in-game either
-				}
-			}
 		}
 	}
 	return false;
 }
+window.melvor_hcco_is_cdo_available = function (id) {
+	return melvor_hcco_is_monster_loot(id);
+}
 
-window.complog_filter_cdo = function () {
+window.complog_filter_cdo = function (all=true) {
 	clearItemLogSearch();
-	showAllItems=true;
-	for (let i=0;i<items.length;i++) {
-		if (melvor_hcco_is_cdo_available(i))
-			$(`#item-log-img-${i}`).removeClass("d-none");
-		else 
-			$(`#item-log-img-${i}`).addClass("d-none");
+	let found_items = [];
+	for (let i=0; i<items.length;i++) {
+		$(`#item-log-img-${i}`).addClass("d-none");
+		if (melvor_hcco_is_monster_loot(i)) {
+			if (found_items.find( (v) => { v == i }) === undefined) {
+				found_items[found_items.length] = i;
+			}
+		}
 	}
+	if (all) {
+		// opening all chests
+		for (let i=0; i<found_items.length; i++) {
+			if (items[found_items[i]].canOpen) {
+				let dt = items[found_items[i]].dropTable;
+				for (let j=0; j<dt.length; j++) {
+					if (found_items.find( (v) => { v == dt[j][0] }) === undefined) {
+						found_items[found_items.length] = dt[j][0];
+					}
+				}
+			}
+		}
+		// going through all craftable items
+		for (let i=0; i<items.length; i++) {
+			if (items[i].itemsRequired !== undefined) {
+				let qualified = true;
+				for (let j=0; (j<items[i].itemsRequired.length) && (qualified); j++) {
+					if (found_items.find( (v) => { v == items[i].itemsRequired[j] } ) === undefined)
+						qualified = false;
+				}
+				found_items[found_items.length] = i;
+			}
+		}
+	}
+	for (let i=0;i<found_items.length;i++) {
+		$(`#item-log-img-${found_items[i]}`).removeClass("d-none");
+	}
+	return found_items;
 }
 
 var add_filter_button = () => {
 	if ($("#completion-log-2")) {
 		itemlog = $("#completion-log-2");
 		buttonRow = itemlog.find(".col-12")[4];
+		monsterLootButton = $("<button>", {
+			id: "complog_monster_loot",
+		 	class: "btn btn-sm btn-info m-1",
+		 	role: "button",
+		 	onclick: "complog_filter_cdo(false);",
+		 	text: "Monster loot"
+		});
 		cdoButton = $("<button>", {
 			id: "complog_cdo",
 		 	class: "btn btn-sm btn-info m-1",
 		 	role: "button",
-		 	onclick: "complog_filter_cdo();",
-		 	text: "Combat Drops"
+		 	onclick: "complog_filter_cdo(true);",
+		 	text: "All Combat Drops"
 		});
 		if ($("#complog_cdo").length === 0) {
+			monsterLootButton.appendTo(buttonRow);
 			cdoButton.appendTo(buttonRow);
-			let cdo_counter = 0;
-			for (let i=0; i<items.length; i++) {
-				if (melvor_hcco_is_cdo_available(i))
-					cdo_counter++;
-			}
-			console.log(cdo_counter);
+			let cdo_counter = complog_filter_cdo(true).length;
 			$("#item-log-comp-count").append(' / <span id="item-log-cdo-count">' + cdo_counter + '</span>');
 		}
 	}
 };
 
-setTimeout( () => setInterval(add_filter_button, 1000), 5000 );
+setTimeout( () => setInterval(add_filter_button, 1000), 1000 );
 
