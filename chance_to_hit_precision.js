@@ -1,4 +1,4 @@
-// ==UserScript=``
+// ==UserScript=
 // @name         Precise chance to hit
 // @namespace    melvor_hcco
 // @version      0.1.1
@@ -8,6 +8,7 @@
 // @exclude	https://wiki.melvoridle.com*
 // @grant       none
 // @noframes
+/* globals jquery, $, game */
 // ==/UserScript==
 
 // Made for version 1.0
