@@ -31,7 +31,7 @@ window.complog_filter_cdo = function (all=true) {
 	for (let i=0; i<items.length;i++) {
 		$(`#item-log-img-${i}`).addClass("d-none");
 		if (melvor_hcco_is_monster_loot(i)) {
-			if (found_items.find( (v) => { v == i }) === undefined) {
+			if (found_items.indexOf(i) == -1) { // avoid dupes
 				found_items[found_items.length] = i;
 			}
 		}
@@ -42,7 +42,7 @@ window.complog_filter_cdo = function (all=true) {
 			if (items[found_items[i]].canOpen) {
 				let dt = items[found_items[i]].dropTable;
 				for (let j=0; j<dt.length; j++) {
-					if (found_items.find( (v) => { v == dt[j][0] }) === undefined) {
+					if (found_items.indexOf(dt[j][0]) == -1) { // avoid dupes
 						found_items[found_items.length] = dt[j][0];
 					}
 				}
@@ -52,13 +52,13 @@ window.complog_filter_cdo = function (all=true) {
 		for (let i=0; i<items.length; i++) {
 			if (items[i].itemsRequired !== undefined) {
 				let qualified = true;
-				for (let j=0; (j<items[i].itemsRequired.length) && (qualified); j++) {
-					if (found_items.indexOf(items[i].itemsRequired[j]) === -1)
+				let ingredients = items[i].itemsRequired;
+				for (let j=0; (j<ingredients.length) && (qualified); j++) {
+					if (found_items.indexOf(ingredients[j][0]) == -1)
 						qualified = false;
 				}
 				if (qualified) {
 					found_items[found_items.length] = i;
-					console.log("Added a craftable");
 				}
 			}
 		}
