@@ -1,0 +1,16 @@
+{
+  "name": "HCCO Overlay",
+  "description": "Hides stuff irrelevant to 12BHCCO players, while showing more useful stuff instead",
+  "version": "1.1.2",
+  "content_scripts": [
+	  {
+		  "js": [
+			  "chance_to_hit_precision.js",
+			  "combat_drops_only_complog.js"
+		  ]
+	  }
+  ],
+  "origin": "browser",
+  "browserId": "hccooverlay",
+  "id": "hccooverlay"
+}
