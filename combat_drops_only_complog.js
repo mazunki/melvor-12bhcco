@@ -95,5 +95,7 @@ var add_filter_button = () => {
 	}
 };
 
+console.log("[melvor_hcco/combat_drops_only_complog] Loading...");
 setTimeout( () => setInterval(add_filter_button, 1000), 1000 );
+console.log("[melvor_hcco/combat_drops_only_complog] Done!");
 

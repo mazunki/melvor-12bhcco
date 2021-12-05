@@ -50,6 +50,8 @@
 		}
 	};
 
+	console.log("[melvor_hcco/chance_to_hit_precision] Loading...");
 	setTimeout( () => setInterval(enemy_chanceToHitUpdater, 50), 5000 );
 	setTimeout( () => setInterval(player_chanceToHitUpdater, 50), 5000 );
+	console.log("[melvor_hcco/chance_to_hit_precision] Done!");
 })();
