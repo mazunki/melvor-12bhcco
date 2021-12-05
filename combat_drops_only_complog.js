@@ -53,7 +53,7 @@ window.complog_filter_cdo = function (all=true) {
 			if (items[i].itemsRequired !== undefined) {
 				let qualified = true;
 				for (let j=0; (j<items[i].itemsRequired.length) && (qualified); j++) {
-					if (found_items.indexOf(items[i].itemsRequired[j]) !== -1)
+					if (found_items.indexOf(items[i].itemsRequired[j]) === -1)
 						qualified = false;
 				}
 				if (qualified) {
