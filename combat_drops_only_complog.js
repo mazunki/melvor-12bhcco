@@ -53,11 +53,12 @@ window.complog_filter_cdo = function (all=true) {
 			if (items[i].itemsRequired !== undefined) {
 				let qualified = true;
 				for (let j=0; (j<items[i].itemsRequired.length) && (qualified); j++) {
-					if (found_items.find( (v) => { v == items[i].itemsRequired[j] } ) === undefined)
+					if (found_items.indexOf(items[i].itemsRequired[j]) !== -1)
 						qualified = false;
 				}
 				if (qualified) {
 					found_items[found_items.length] = i;
+					console.log("Added a craftable");
 				}
 			}
 		}
