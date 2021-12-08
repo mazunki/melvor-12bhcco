@@ -44,10 +44,15 @@ do_minify_style = function () {
 		skilldom.textContent = skilldom.textContent.replaceAll("(", "")
 		skilldom.textContent = skilldom.textContent.replaceAll(" / 99)", "")
 		skilldom.style = "font-size: 100%; margin: auto;";
+		
+		skillnamedom = $("#skill-nav-name-"+skill)[0];
+		if (skilldom === undefined) return;
+		skillnamedom.style = "display: none";
 	}
 	$("#page-container.side-scroll #sidebar .content-side").css("width", "130"); // resize content
 	$("#sidebar").css("width", "130"); // resize sidebar
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
+
 	if ($(".nav-main-link.nav-page-1").children()[0] !== undefined) {
 		$(".nav-main-link.nav-page-1").children()[0].style="display:none;"; // hide shop icon
 	}
@@ -60,8 +65,24 @@ do_minify_style = function () {
 	}
 	clean_up_level_display("16-1");
 
-	$(".nav-main-link-name").css("display", "none"); // hide text labels
 	$(".nav-main-heading").css("width", "130px"); // resizes version container
+
+	$(".nav-main-link-name").css("font-size", "70%"); // smoler text for visible labels
+	for (let i=0; i<$(".nav-main-submenu").length; i++ ) {
+		$(".nav-main-submenu")[i].style = "padding-left: 10px";  // remove some indentation for submenues
+	}
+	
+	if ($(".page-nav-name-misc-4")[0] !== undefined) { // we already know it's complog
+		$(".page-nav-name-misc-4")[0].style = "display: none;";
+	}
+
+	if ($(".page-nav-name-1")[0] !== undefined) { // we already know it's bank
+		$(".page-nav-name-1")[0].style = "display: none;";
+	}
+
+	if ($(".page-nav-name-2")[0] !== undefined) { // we already know it's shop
+		$(".page-nav-name-2")[0].style = "display: none;";
+	}
 	
 	cb_sidebar = $("#combat-level-sidebar")[0];
 	if (cb_sidebar !== undefined) {
@@ -101,6 +122,6 @@ console.log("[melvor_hcco/minified_view] Loading");
 setInterval(do_minify_style, 1000);
 local_toggleMenu(0, false);
 local_toggleMenu(1, false);
-setInterval(hide_skill_groups, 1000);
+setInterval(hide_skill_groups, 5000);
 
 console.log("[melvor_hcco/minified_view] Done");
