@@ -24,6 +24,7 @@ do_minify_style = function () {
 	$("#sidebar").css("width", "130"); // resize sidebar
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
 	$(".nav-main-link.nav-page-1").children()[0].style="display:none;"; // hide shop icon
+	$("#nav-current-gp")[0].style = "margin: auto";
 
 	for (let skill=0; skill<=22; skill++) {
 		clean_up_level_display(skill);
@@ -35,7 +36,7 @@ do_minify_style = function () {
 	
 	$("#combat-level-sidebar")[0].style = "display: visible !important;"; // redisplay combat level
 	$("#combat-level-sidebar")[0].textContent = getPlayerCombatLevel();
-	$("#combat-level-sidebar")[0].style = "font-size: 100%; margin: auto;";
+	$("#combat-level-sidebar")[0].style = "font-size: 100%; margin-left: 15px;";
 
 	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px"); // resizes logo container
 	$(".logo-sidebar").css("width", "100px").css("height", "auto"); // resizes logo at top
