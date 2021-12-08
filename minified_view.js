@@ -35,6 +35,7 @@ do_minify_style = function () {
 	
 	$("#combat-level-sidebar")[0].style = "display: visible !important;"; // redisplay combat level
 	$("#combat-level-sidebar")[0].textContent = getPlayerCombatLevel();
+	$("#combat-level-sidebar")[0].style = "font-size: 100%; margin: auto;";
 
 	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px"); // resizes logo container
 	$(".logo-sidebar").css("width", "100px").css("height", "auto"); // resizes logo at top
