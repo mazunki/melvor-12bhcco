@@ -44,9 +44,8 @@ do_minify_style = function () {
 	
 	cb_sidebar = $("#combat-level-sidebar")[0];
 	if (cb_sidebar !== undefined) {
-		cb_sidebar.style = "display: visible !important;"; // redisplay combat level
 		cb_sidebar.textContent = getPlayerCombatLevel();
-		cb_sidebar.style = "font-size: 100%; margin-left: 16px;";
+		cb_sidebar.style = "flex: 0 0 auto; margin: auto; font-size: 100%"; // font and center
 	}
 
 	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px"); // resizes logo container
