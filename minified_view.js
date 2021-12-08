@@ -83,6 +83,10 @@ do_minify_style = function () {
 	if ($(".page-nav-name-2")[0] !== undefined) { // we already know it's shop
 		$(".page-nav-name-2")[0].style = "display: none;";
 	}
+
+	if ($(".page-nav-name-24")[0] !== undefined) { // we already know it's golbin raid
+		$(".page-nav-name-24")[0].style = "display: none;";
+	}
 	
 	cb_sidebar = $("#combat-level-sidebar")[0];
 	if (cb_sidebar !== undefined) {
