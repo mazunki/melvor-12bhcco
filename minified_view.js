@@ -13,9 +13,13 @@
 
 // Made for version 1.0
 
+let has_initialized = false;
 do_minify_style = function () {
+	if ($("m-page-loader.d-none").length != 0) return;
+
 	clean_up_level_display = function (skill) {
 		skilldom = $("#nav-skill-progress-all-"+skill)[0];
+		if (skilldom === undefined) return;
 		skilldom.textContent = skilldom.textContent.replaceAll("(", "")
 		skilldom.textContent = skilldom.textContent.replaceAll(" / 99)", "")
 		skilldom.style = "font-size: 100%; margin: auto;";
@@ -23,8 +27,12 @@ do_minify_style = function () {
 	$("#page-container.side-scroll #sidebar .content-side").css("width", "130"); // resize content
 	$("#sidebar").css("width", "130"); // resize sidebar
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
-	$(".nav-main-link.nav-page-1").children()[0].style="display:none;"; // hide shop icon
-	$("#nav-current-gp")[0].style = "margin: auto";
+	if ($(".nav-main-link.nav-page-1").children()[0] !== undefined) {
+		$(".nav-main-link.nav-page-1").children()[0].style="display:none;"; // hide shop icon
+	}
+	if ($("#nav-current-gp")[0] !== undefined) {
+		$("#nav-current-gp")[0].style = "margin: auto";
+	}
 
 	for (let skill=0; skill<=22; skill++) {
 		clean_up_level_display(skill);
@@ -34,12 +42,37 @@ do_minify_style = function () {
 	$(".nav-main-link-name").css("display", "none"); // hide text labels
 	$(".nav-main-heading").css("width", "130px"); // resizes version container
 	
-	$("#combat-level-sidebar")[0].style = "display: visible !important;"; // redisplay combat level
-	$("#combat-level-sidebar")[0].textContent = getPlayerCombatLevel();
-	$("#combat-level-sidebar")[0].style = "font-size: 100%; margin-left: 15px;";
+	cb_sidebar = $("#combat-level-sidebar")[0];
+	if (cb_sidebar !== undefined) {
+		cb_sidebar.style = "display: visible !important;"; // redisplay combat level
+		cb_sidebar.textContent = getPlayerCombatLevel();
+		cb_sidebar.style = "font-size: 100%; margin-left: 16px;";
+	}
 
 	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px"); // resizes logo container
 	$(".logo-sidebar").css("width", "100px").css("height", "auto"); // resizes logo at top
+
+	const combat_skills = ["Attack", "Strength", "Defence", "Ranged", "Magic", "Prayer", "Slayer"]; // hp starts lvl 10
+	const no_combat_skills = ["Woodcutting", "Fishing", "Firemaking", "Cooking", "Mining", "Smithing", "Farming", "Fletching", "Crafting", "Runecrafting", "Herblore", "Agility", "Summoning", "Astrology"];
+
+	if (!(has_initialized)) {
+		toggleMenu(0); // default to hide combat
+		for (let i=0; i<combat_skills.length; i++) {
+			if (skillLevel[CONSTANTS.skill[combat_skills[i]]] !== 1) {
+				toggleMenu(0);
+				break;
+			}
+		}
+
+		toggleMenu(1);
+		for (let i=0; i<no_combat_skills.length; i++) {
+			if (skillLevel[CONSTANTS.skill[no_combat_skills[i]]] !== 1) {
+				toggleMenu(1);
+				break;
+			}
+		}
+	}
+	has_initialized = true;
 }
 
 
