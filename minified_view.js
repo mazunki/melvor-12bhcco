@@ -14,6 +14,27 @@
 // Made for version 1.0
 
 let has_initialized = false;
+
+function local_toggleMenu(menu,show=false){
+	let c=[6,7,8,9,12,16,17,18];
+	let m=[0,1,2,3,4,5,10,13,14,15,19];
+	if(menu===0) {
+		for(let i=0;i<c.length;i++) {
+			if (show) {
+				$("#nav-skill-tooltip-"+c[i]).removeClass("d-none");
+			} else {
+				$("#nav-skill-tooltip-"+c[i]).addClass("d-none");
+			}
+		}
+	} else if (menu===1){
+		if (show) {
+			$($(".nav-main-heading")[4]).nextUntil("[id=nav-main-heading]").removeClass("d-none");
+		} else {
+			$($(".nav-main-heading")[4]).nextUntil("[id=nav-main-heading]").addClass("d-none");
+		}
+	}
+}
+
 do_minify_style = function () {
 	if ($("m-page-loader.d-none").length != 0) return;
 
@@ -51,30 +72,35 @@ do_minify_style = function () {
 	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px"); // resizes logo container
 	$(".logo-sidebar").css("width", "100px").css("height", "auto"); // resizes logo at top
 
+
+}
+hide_skill_groups = function() {
 	const combat_skills = ["Attack", "Strength", "Defence", "Ranged", "Magic", "Prayer", "Slayer"]; // hp starts lvl 10
 	const no_combat_skills = ["Woodcutting", "Fishing", "Firemaking", "Cooking", "Mining", "Smithing", "Farming", "Fletching", "Crafting", "Runecrafting", "Herblore", "Agility", "Summoning", "Astrology"];
-
-	if (!(has_initialized)) {
-		toggleMenu(0); // default to hide combat
-		for (let i=0; i<combat_skills.length; i++) {
-			if (skillLevel[CONSTANTS.skill[combat_skills[i]]] !== 1) {
-				toggleMenu(0);
-				break;
-			}
-		}
-
-		toggleMenu(1);
-		for (let i=0; i<no_combat_skills.length; i++) {
-			if (skillLevel[CONSTANTS.skill[no_combat_skills[i]]] !== 1) {
-				toggleMenu(1);
-				break;
-			}
+	let show_combat = false;
+	for (let i=0; i<combat_skills.length; i++) {
+		if (skillLevel[CONSTANTS.skill[combat_skills[i]]] > 1) {
+			show_combat = true;
+			break;
 		}
 	}
-	has_initialized = true;
-}
+	local_toggleMenu(0,show_combat);
 
+
+	let show_no_combat = false;
+	for (let i=0; i<no_combat_skills.length; i++) {
+		if (skillLevel[CONSTANTS.skill[no_combat_skills[i]]] > 1) {
+			show_no_combat = true;
+			break;
+		}
+	}
+	local_toggleMenu(1, show_no_combat);
+}
 
 console.log("[melvor_hcco/minified_view] Loading");
 setInterval(do_minify_style, 1000);
+local_toggleMenu(0, false);
+local_toggleMenu(1, false);
+setInterval(hide_skill_groups, 1000);
+
 console.log("[melvor_hcco/minified_view] Done");
