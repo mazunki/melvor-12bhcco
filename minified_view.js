@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Precise chance to hit
+// @name         Minified View
 // @namespace    melvor_hcco
 // @version      0.1.1
-// @description  Shows 4 significant digits in chance of hit, instead of an integer%
+// @description  Minifies the UI by hiding some stuff, useful for advanced players who already knows the interface
 // @author       mazunki
 // @match	https://*.melvoridle.com/*
 // @exclude	https://wiki.melvoridle.com*
