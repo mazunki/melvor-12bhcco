@@ -27,7 +27,7 @@
 	}
 
 	var player_chanceToHitUpdater = () => {
-		if ($("#combat-player-chance-to-hit")) {
+		if ($("#combat-player-chance-to-hit") && !(game.isPaused)) {
 			let player_accuracy = game.combat.player.valueOf().stats.accuracy;
 			let enemy_evasion = game.combat.enemy.valueOf().stats.evasion[game.combat.player.attackType];
 
@@ -39,7 +39,7 @@
 	};
 
 	var enemy_chanceToHitUpdater = () => {
-		if ($("#combat-enemy-chance-to-hit")) {
+		if ($("#combat-enemy-chance-to-hit") && !(game.isPaused)) {
 			let enemy_accuracy = game.combat.enemy.valueOf().stats.accuracy;
 			let player_evasion = game.combat.player.valueOf().stats.evasion[game.combat.enemy.attackType];
 
