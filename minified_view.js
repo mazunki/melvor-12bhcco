@@ -8,7 +8,7 @@
 // @exclude	https://wiki.melvoridle.com*
 // @grant       none
 // @noframes
-/* globals jquery, $, game */
+/* globals jquery, $, game, getPlayerCombatLevel, skillLevel, CONSTANTS */
 // ==/UserScript==
 
 // Made for version 1.0
@@ -35,22 +35,42 @@ function local_toggleMenu(menu,show=false){
 	}
 }
 
-do_minify_style = function () {
+let do_minify_style = function () {
 	if ($("m-page-loader.d-none").length != 0) return;
 
-	clean_up_level_display = function (skill) {
-		skilldom = $("#nav-skill-progress-all-"+skill)[0];
+	let clean_up_level_display = function (skill) {
+		let skilldom = $("#nav-skill-progress-all-"+skill)[0];
 		if (skilldom === undefined) return;
-		skilldom.textContent = skilldom.textContent.replaceAll("(", "")
-		skilldom.textContent = skilldom.textContent.replaceAll(" / 99)", "")
+		skilldom.textContent = skillLevel[skill];
 		skilldom.style = "font-size: 100%; margin: auto;";
-		
-		skillnamedom = $("#skill-nav-name-"+skill)[0];
+
+		let skillnamedom = $("#skill-nav-name-"+skill)[0];
 		if (skilldom === undefined) return;
 		skillnamedom.style = "display: none";
+
+        let skillcontainerdom = $("#nav-skill-tooltip-"+skill)[0];
+        if (skillcontainerdom === undefined) return;
+
+        if ($("#skill-nav-name-"+skill)[0] === undefined) return;
+        if ($("#skill-nav-name-"+skill)[0].classList.contains("text-success")) {
+            skillcontainerdom.style = "width: 130px !important; background-color: #30888d !important";
+        } else {
+            skillcontainerdom.style = "width: 130px !important;";
+        }
 	}
-	$("#page-container.side-scroll #sidebar .content-side").css("width", "130"); // resize content
-	$("#sidebar").css("width", "130"); // resize sidebar
+
+	$(".nav-main-item").css("width", "130px !important;");
+	$(".nav-main").css("width", "130px !important;");
+	if ($("#page-container.side-scroll #sidebar .content-side")[0] !== undefined ) {
+		$("#page-container.side-scroll #sidebar .content-side")[0].style = "width: 130px !important;";
+	}
+	if ($(".content-header")[0] !== undefined ) {
+		$(".content-header")[0].style = "width: 130px !important;";
+	}
+
+	if ($("#sidebar") !== undefined) {
+		$("#sidebar")[0].style = "width: 130px !important"; // resize sidebar
+	}
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
 
 	if ($(".nav-main-link.nav-page-1").children()[0] !== undefined) {
@@ -65,13 +85,16 @@ do_minify_style = function () {
 	}
 	clean_up_level_display("16-1");
 
-	$(".nav-main-heading").css("width", "130px"); // resizes version container
+	if ($("#ad-container")[0] !== undefined)  {
+		$("#ad-container")[0].style = "display: none;";
+	}
+
 
 	$(".nav-main-link-name").css("font-size", "70%"); // smoler text for visible labels
 	for (let i=0; i<$(".nav-main-submenu").length; i++ ) {
-		$(".nav-main-submenu")[i].style = "padding-left: 10px";  // remove some indentation for submenues
+		$(".nav-main-submenu")[i].style = "padding-left: 10px"; // remove some indentation for submenues
 	}
-	
+
 	if ($(".page-nav-name-misc-4")[0] !== undefined) { // we already know it's complog
 		$(".page-nav-name-misc-4")[0].style = "display: none;";
 	}
@@ -87,19 +110,20 @@ do_minify_style = function () {
 	if ($(".page-nav-name-24")[0] !== undefined) { // we already know it's golbin raid
 		$(".page-nav-name-24")[0].style = "display: none;";
 	}
-	
-	cb_sidebar = $("#combat-level-sidebar")[0];
+
+	let cb_sidebar = $("#combat-level-sidebar")[0];
 	if (cb_sidebar !== undefined) {
 		cb_sidebar.textContent = getPlayerCombatLevel();
 		cb_sidebar.style = "flex: 0 0 auto; margin: auto; font-size: 100%"; // font and center
 	}
 
-	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px"); // resizes logo container
+	$(".nav-main-heading").css("width", "130px !important"); // resizes version container
+	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px !important"); // resizes logo container
 	$(".logo-sidebar").css("width", "100px").css("height", "auto"); // resizes logo at top
 
 
 }
-hide_skill_groups = function() {
+let hide_skill_groups = function() {
 	const combat_skills = ["Attack", "Strength", "Defence", "Ranged", "Magic", "Prayer", "Slayer"]; // hp starts lvl 10
 	const no_combat_skills = ["Woodcutting", "Fishing", "Firemaking", "Cooking", "Mining", "Smithing", "Farming", "Fletching", "Crafting", "Runecrafting", "Herblore", "Agility", "Summoning", "Astrology"];
 	let show_combat = false;
