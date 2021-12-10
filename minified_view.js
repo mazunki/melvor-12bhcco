@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Minified View
 // @namespace    melvor_hcco
-// @version      0.1.1
+// @version      0.1.2
 // @description  Minifies the UI by hiding some stuff, useful for advanced players who already knows the interface
 // @author       mazunki
 // @match	https://*.melvoridle.com/*
