@@ -35,7 +35,7 @@ function local_toggleMenu(menu,show=false){
 	}
 }
 
-let do_minify_style = function () {
+let do_minify_sidebar_style = function () {
 	if ($("m-page-loader.d-none").length != 0) return;
 
 	let clean_up_level_display = function (skill) {
@@ -146,8 +146,33 @@ let hide_skill_groups = function() {
 	local_toggleMenu(1, show_no_combat);
 }
 
-console.log("[melvor_hcco/minified_view] Loading");
-setInterval(do_minify_style, 1000);
+let do_minify_combat_style = function () {
+	if ($("#combat-fight-container-player").length != 0) return;
+	try {
+		let player_stats = $("#combat-fight-container-player").children().children().children().children()[2].children[0].children[0].children;
+		player_stats[1].textContent = "min";
+		player_stats[3].textContent = "max";
+		player_stats[5].textContent = "max (summ)";
+		player_stats[7].textContent = "hit chance";
+		player_stats[9].textContent = "accuracy";
+		player_stats[11].textContent = "dr";
+		player_stats[13].textContent = "ev";
+		player_stats[15].textContent = "ev";
+		player_stats[17].textContent = "ev";
+		player_stats[19].textContent = "pp lvl";
+		player_stats[21].textContent = "pp";
+		player_stats[23].textContent = "active pp";
+
+	} catch (e) {
+		console.log(e);
+		return;
+	}
+
+}
+
+console.log("[] Loading");
+setInterval(do_minify_sidebar_style, 1000);
+setInterval(do_minify_combat_style, 1000);
 local_toggleMenu(0, false);
 local_toggleMenu(1, false);
 setInterval(hide_skill_groups, 5000);
