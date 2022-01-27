@@ -41,7 +41,7 @@ let do_minify_sidebar_style = function () {
 	let clean_up_level_display = function (skill) {
 		let skilldom = $("#nav-skill-progress-all-"+skill)[0];
 		if (skilldom === undefined) return;
-		skilldom.textContent = skillLevel[skill];
+		skilldom.textContent = skillLevel[(""+skill).replace("-1", "")]; // alt magic is 16-1 but uses 16
 		skilldom.style = "font-size: 100%; margin: auto;";
 
 		let skillnamedom = $("#skill-nav-name-"+skill)[0];
@@ -52,10 +52,10 @@ let do_minify_sidebar_style = function () {
         if (skillcontainerdom === undefined) return;
 
         if ($("#skill-nav-name-"+skill)[0] === undefined) return;
-        if ($("#skill-nav-name-"+skill)[0].classList.contains("text-success")) {
+        if ($("#skill-nav-name-"+skill)[0].classList.contains("text-success")) { // training
             skillcontainerdom.style = "width: 130px !important; background-color: #30888d !important";
-        } else {
-            skillcontainerdom.style = "width: 130px !important;";
+        } else { // not training
+            skillcontainerdom.style = "width: 130px !important; background: transparent !important;";
         }
 	}
 
@@ -68,7 +68,7 @@ let do_minify_sidebar_style = function () {
 		$(".content-header")[0].style = "width: 130px !important;";
 	}
 
-	if ($("#sidebar") !== undefined) {
+	if ($("#sidebar")[0] !== undefined) {
 		$("#sidebar")[0].style = "width: 130px !important; transform: translateX(0)"; // resize sidebar
 	}
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
@@ -149,7 +149,7 @@ let hide_skill_groups = function() {
 let do_minify_combat_style = function () {
 	if ($("#combat-fight-container-player").length != 0) return;
 	try {
-		let player_stats = $("#combat-fight-container-player").children().children().children().children()[2].children[0].children[0].children;
+		/*let player_stats = $("#combat-fight-container-player").children().children().children().children()[2].children[0].children[0].children;
 		player_stats[1].textContent = "min";
 		player_stats[3].textContent = "max";
 		player_stats[5].textContent = "max (summ)";
@@ -161,7 +161,7 @@ let do_minify_combat_style = function () {
 		player_stats[17].textContent = "ev";
 		player_stats[19].textContent = "pp lvl";
 		player_stats[21].textContent = "pp";
-		player_stats[23].textContent = "active pp";
+		player_stats[23].textContent = "active pp"; */
 
 	} catch (e) {
 		console.log(e);
@@ -170,7 +170,7 @@ let do_minify_combat_style = function () {
 
 }
 
-console.log("[] Loading");
+console.log("[melvor_hcco/minified_view] Loading");
 setInterval(do_minify_sidebar_style, 1000);
 setInterval(do_minify_combat_style, 1000);
 local_toggleMenu(0, false);
