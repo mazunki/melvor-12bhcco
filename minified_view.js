@@ -53,9 +53,9 @@ let do_minify_sidebar_style = function () {
 
         if ($("#skill-nav-name-"+skill)[0] === undefined) return;
         if ($("#skill-nav-name-"+skill)[0].classList.contains("text-success")) { // training
-            skillcontainerdom.style = "width: 130px !important; background-color: #30888d !important";
+            skillcontainerdom.style = "width: 130px !important; background-color: #30554d !important";
         } else { // not training
-            skillcontainerdom.style = "width: 130px !important; background: transparent !important;";
+//            skillcontainerdom.style = "!important;"
         }
 	}
 
@@ -67,9 +67,16 @@ let do_minify_sidebar_style = function () {
 	if ($(".content-header")[0] !== undefined ) {
 		$(".content-header")[0].style = "width: 130px !important;";
 	}
+	if ($("#header-theme")[0] !== undefined ) {
+		$("#header-theme")[0].style = "background: transparent !important;"
+	}
+	if ($("#page-header")[0] !== undefined ) {
+		$("#page-header")[0].style = "background: transparent !important;"
+	}
+
 
 	if ($("#sidebar")[0] !== undefined) {
-		$("#sidebar")[0].style = "width: 130px !important; transform: translateX(0)"; // resize sidebar
+		$("#sidebar")[0].style = "width: 130px !important; background: transparent !important; transform: translateX(0)"; // resize sidebar
 	}
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
 
@@ -85,7 +92,7 @@ let do_minify_sidebar_style = function () {
 	}
 	clean_up_level_display("16-1");
 
-	if ($("#ad-container")[0] !== undefined)  {
+	if ($("#ad-container")[0] !== undefined) {
 		$("#ad-container")[0].style = "display: none;";
 	}
 
@@ -117,7 +124,10 @@ let do_minify_sidebar_style = function () {
 		cb_sidebar.style = "flex: 0 0 auto; margin: auto; font-size: 100%"; // font and center
 	}
 
-	$(".nav-main-heading").css("width", "130px !important"); // resizes version container
+	if ($(".nav-main-heading > small")[0] !== undefined) {
+		$(".nav-main-heading > small")[0].parentElement.style = "width: 130px !important; background: transparent !important;"; // resizes version container
+	}
+
 	$("#page-container.side-scroll #sidebar .content-header").css("width", "130px !important"); // resizes logo container
 	$(".logo-sidebar").css("width", "100px").css("height", "auto"); // resizes logo at top
 

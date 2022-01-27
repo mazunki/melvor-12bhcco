@@ -8,6 +8,7 @@
 			  "chance_to_hit_precision.js",
 			  "combat_drops_only_complog.js",
 			  "minified_view.js"
+			  "blood_level_hud.js",
 		  ]
 	  }
   ],
