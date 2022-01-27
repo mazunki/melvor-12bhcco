@@ -69,7 +69,7 @@ let do_minify_sidebar_style = function () {
 	}
 
 	if ($("#sidebar") !== undefined) {
-		$("#sidebar")[0].style = "width: 130px !important"; // resize sidebar
+		$("#sidebar")[0].style = "width: 130px !important; transform: translateX(0)"; // resize sidebar
 	}
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
 
