@@ -14,29 +14,33 @@
 
 window.melvor_hcco_is_monster_loot = function (id) {
 	for (let i=0; i<MONSTERS.length; i++) {
-		monster_loot = MONSTERS[i].lootTable;
+		let monster_loot = MONSTERS[i].lootTable;
 		for (let j=0; j<monster_loot.length; j++) {
 			if (monster_loot[j][0] === id) return true;
 		}
 	}
 	return false;
 }
-window.melvor_hcco_is_cdo_available = function (id) {
-	return melvor_hcco_is_monster_loot(id);
-}
 
-window.complog_filter_cdo = function (all=true) {
-	clearItemLogSearch();
+window.melvor_hcco_get_monster_drops = function () {
 	let found_items = [];
-	for (let i=0; i<items.length;i++) {
-		$(`#item-log-img-${i}`).addClass("d-none");
-		if (melvor_hcco_is_monster_loot(i)) {
-			if (found_items.indexOf(i) == -1) { // avoid dupes
+	for (let i=0; i<items.length; i++) {
+		if (found_items.indexOf(i) == -1) { // avoid dupes
+			if (window.melvor_hcco_is_monster_loot(i)) {
 				found_items[found_items.length] = i;
 			}
 		}
 	}
-	if (all) {
+	return found_items;
+}
+
+window.melvor_hcco_get_co_available = function () {
+	let found_items = window.melvor_hcco_get_monster_drops();
+	let new_stuff = true;
+
+	while (new_stuff) { // this will recursively open and craft chests
+		new_stuff = false;
+
 		// opening all chests
 		for (let i=0; i<found_items.length; i++) {
 			if (items[found_items[i]].canOpen) {
@@ -44,10 +48,12 @@ window.complog_filter_cdo = function (all=true) {
 				for (let j=0; j<dt.length; j++) {
 					if (found_items.indexOf(dt[j][0]) == -1) { // avoid dupes
 						found_items[found_items.length] = dt[j][0];
+						new_stuff = true;
 					}
 				}
 			}
 		}
+
 		// going through all craftable items
 		for (let i=0; i<items.length; i++) {
 			if (items[i].itemsRequired !== undefined) {
@@ -55,14 +61,41 @@ window.complog_filter_cdo = function (all=true) {
 				let ingredients = items[i].itemsRequired;
 				for (let j=0; (j<ingredients.length) && (qualified); j++) {
 					if (found_items.indexOf(ingredients[j][0]) == -1)
-						qualified = false;
+						qualified = false;  // missing an ingredient
 				}
 				if (qualified) {
-					found_items[found_items.length] = i;
+					if (found_items.indexOf(i) == -1) { // avoid dupes
+						found_items[found_items.length] = i;
+						new_stuff = true;
+					}
 				}
 			}
 		}
 	}
+
+	return found_items;
+}
+
+window.complog_filter_monster_loot = function () {
+	clearItemLogSearch();
+	for (let i=0; i<items.length;i++) {
+		$(`#item-log-img-${i}`).addClass("d-none");
+	}
+
+	let found_items = window.melvor_hcco_get_monster_drops();
+	for (let i=0;i<found_items.length;i++) {
+		$(`#item-log-img-${found_items[i]}`).removeClass("d-none");
+	}
+	return found_items;
+}
+
+window.complog_filter_co_available = function () {
+	clearItemLogSearch();
+	for (let i=0; i<items.length;i++) {
+		$(`#item-log-img-${i}`).addClass("d-none");
+	}
+
+	let found_items = window.melvor_hcco_get_co_available();
 	for (let i=0;i<found_items.length;i++) {
 		$(`#item-log-img-${found_items[i]}`).removeClass("d-none");
 	}
@@ -77,20 +110,20 @@ var add_filter_button = () => {
 			id: "complog_monster_loot",
 		 	class: "btn btn-sm btn-info m-1",
 		 	role: "button",
-		 	onclick: "complog_filter_cdo(false);",
+		 	onclick: "complog_filter_monster_loot();",
 		 	text: "Monster loot"
 		});
 		cdoButton = $("<button>", {
 			id: "complog_cdo",
 		 	class: "btn btn-sm btn-info m-1",
 		 	role: "button",
-		 	onclick: "complog_filter_cdo(true);",
+		 	onclick: "complog_filter_co_available();",
 		 	text: "All Combat Drops"
 		});
 		if ($("#complog_cdo").length === 0) {
 			monsterLootButton.appendTo(buttonRow);
 			cdoButton.appendTo(buttonRow);
-			let cdo_counter = complog_filter_cdo(true).length;
+			let cdo_counter = complog_filter_co_available().length;
 			$("#item-log-comp-count").append(' / <span id="item-log-cdo-count">' + cdo_counter + '</span>');
 		}
 	}
