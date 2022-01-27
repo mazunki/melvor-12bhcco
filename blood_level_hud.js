@@ -18,14 +18,6 @@ let has_initialized = false;
 let do_add_blood_hud = function () {
 	if ($("m-page-loader.d-none").length != 0) return;
 
-	let main_container = $("#main-container")[0];
-
-	let scw = $(".simplebar-content-wrapper")[0];
-	if (scw !== undefined) {
-		let s = (scw.style === undefined)? "" : scw.style;
-		scw.style = "height: 100%; background: transparent !important; overflow: hidden scroll;";
-	}
-
     if ($("#page-container")[0] !== undefined && player != undefined) {
         let color = "red";
         let missing_hp = (player.hitpointsPercent) ? (100 - player.hitpointsPercent) : 0;

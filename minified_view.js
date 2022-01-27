@@ -80,6 +80,13 @@ let do_minify_sidebar_style = function () {
 	}
 	$("#page-container.sidebar-o").css("padding-left", "110px"); // move game to fit
 
+	let scw = $(".simplebar-content-wrapper")[0];
+	if (scw !== undefined) {
+		let s = (scw.style === undefined)? "" : scw.style;
+		scw.style = "height: 100%; background: transparent !important; overflow: hidden scroll;";
+	}
+
+
 	if ($(".nav-main-link.nav-page-1").children()[0] !== undefined) {
 		$(".nav-main-link.nav-page-1").children()[0].style="display:none;"; // hide shop icon
 	}
