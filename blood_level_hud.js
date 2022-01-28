@@ -22,7 +22,7 @@ let do_add_blood_hud = function () {
         let color = "red";
         let missing_hp = (player.hitpointsPercent) ? (100 - player.hitpointsPercent) : 0;
 
-        let colour = (missing_hp > 50)? "#FF0000" : "#770";
+        let colour = (missing_hp > 60)? "#FF0000" : "#770";
         let percenthud = 0.2;
 
         let linear_percent = (missing_hp > 20)? 100 - missing_hp * percenthud : 100;
