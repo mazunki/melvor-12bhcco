@@ -21,8 +21,17 @@ let do_add_blood_hud = function () {
     if ($("#page-container")[0] !== undefined && player != undefined) {
         let color = "red";
         let missing_hp = (player.hitpointsPercent) ? (100 - player.hitpointsPercent) : 0;
+		let maxhit = 0;
+		if (combatManager !== undefined) {
+			if (combatManager.isInCombat) {
+				if (combatManager.enemy !== undefined) {
+					maxhit = combatManager.enemy.stats.maxHit;
+				}
+			}
+		}
 
-        let colour = (missing_hp > 60)? "#FF0000" : "#770";
+		// at 40%, ae3 triggers in.
+        let colour = ((missing_hp > 60) || (player.hitpoints <= maxhit) )? "#FF0000" : "#770";
         let percenthud = 0.2;
 
         let linear_percent = (missing_hp > 20)? 100 - missing_hp * percenthud : 100;
