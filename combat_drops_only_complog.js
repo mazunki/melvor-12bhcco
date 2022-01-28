@@ -38,9 +38,63 @@ window.melvor_hcco_get_co_available = function () {
 	let found_items = window.melvor_hcco_get_monster_drops();
 	let new_stuff = true;
 
+	if (SHOP.Materials.length === undefined) return;
+	for (let i=0; i<SHOP.Materials.length; i++) {
+		let grocery = SHOP.Materials[i];
+		for (let j=0; j<grocery.contains.items.length; j++) {
+			if (found_items.indexOf(grocery.contains.items[j][0]) == -1) { // avoid dupes
+				found_items[found_items.length] = grocery.contains.items[j][0];
+			}
+		}
+		
+	}
+	if (SHOP.Slayer.length === undefined) return;
+	for (let i=0; i<SHOP.Slayer.length; i++) {
+		let grocery = SHOP.Slayer[i];
+		for (let j=0; j<grocery.contains.items.length; j++) {
+			if (found_items.indexOf(grocery.contains.items[j][0]) == -1) { // avoid dupes
+				found_items[found_items.length] = grocery.contains.items[j][0];
+			}
+		}
+	}
+	if (SHOP.Gloves.length === undefined) return;
+	for (let i=0; i<SHOP.Gloves.length; i++) {
+		let grocery = SHOP.Gloves[i];
+		for (let j=0; j<grocery.contains.items.length; j++) {
+			if (found_items.indexOf(grocery.contains.items[j][0]) == -1) { // avoid dupes
+				found_items[found_items.length] = grocery.contains.items[j][0];
+			}
+		}
+	}
+	if (SHOP.Skillcapes.length === undefined) return;
+	for (let i=0; i<SHOP.Skillcapes.length; i++) {
+		let cape = SHOP.Skillcapes[i];
+		let skillreqs = cape.unlockRequirements.skillLevel;
+		if (skillreqs === undefined) {
+			continue;  // completion cape has no skillLevel, but completionPercentage=100
+		}
+		let ok_skills = [ "Attack", "Strength", "Defense", "Hitpoints", "Ranged", "Magic", "Prayer", "Slayer" ];
+		let qualified = true;
+		for (let j=0; j<skillreqs.length; j++) {
+			if (ok_skills.indexOf(Skills[skillreqs[j][0]]) == -1) {
+				qualified = false;
+			}
+		}
+		if (!(qualified)) {
+			continue;
+		}
+
+		for (let j=0; j<cape.contains.items.length; j++) {
+			if (found_items.indexOf(cape.contains.items[j][0]) == -1) { // avoid dupes
+				found_items[found_items.length] = cape.contains.items[j][0];
+			}
+		}
+	}
+
+
 	while (new_stuff) { // this will recursively open and craft chests
 		new_stuff = false;
-
+		// buying stuff from shop
 		// opening all chests
 		for (let i=0; i<found_items.length; i++) {
 			if (items[found_items[i]].canOpen) {
