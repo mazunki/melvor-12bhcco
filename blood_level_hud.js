@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blood Hud
 // @namespace    melvor_hcco
-// @version      0.0.1
+// @version      0.1.0
 // @description  Adds a blood hud for low hp levels
 // @author       mazunki
 // @match	https://*.melvoridle.com/*
@@ -26,11 +26,13 @@ let do_add_blood_hud = function () {
         let percenthud = 0.2;
 
         let linear_percent = (missing_hp > 20)? 100 - missing_hp * percenthud : 100;
+        let radial_percent = (missing_hp > 20)? 100 - missing_hp * (percenthud*1.5) : 100;
 
         let hudstyle = "linear-gradient(to left, transparent " + linear_percent + "%, " + colour +")";
         hudstyle += ", linear-gradient(to right, transparent " + linear_percent + "%, " + colour +")";
         hudstyle += ", linear-gradient(to bottom, transparent " + linear_percent + "%, " + colour +")";
         hudstyle += ", linear-gradient(to top, transparent " + linear_percent + "%, " + colour +")";
+        hudstyle += ", radial-gradient(ellipse, transparent " + radial_percent + "%, " + colour +")";
 
         $("#page-container")[0].style = "padding-left: 110px; background: " + hudstyle + ";";
     }
