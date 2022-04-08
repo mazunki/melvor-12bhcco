@@ -12,3 +12,6 @@ Otherwise, you may want to use Tampermonkey to insert each script as a mod, if y
 
 Check the [Official Wiki for Melvor](https://wiki.melvoridle.com/w/Scripting_and_Extensions_Instructions) for better instructions.
 
+[Maz REALLY sucks and I hate him ~~Username](assets/mazsucks.png)
+
+
