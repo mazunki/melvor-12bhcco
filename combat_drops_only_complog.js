@@ -46,7 +46,7 @@ window.melvor_hcco_get_co_available = function () {
 				found_items[found_items.length] = grocery.contains.items[j][0];
 			}
 		}
-		
+
 	}
 	if (SHOP.Slayer.length === undefined) return;
 	for (let i=0; i<SHOP.Slayer.length; i++) {
@@ -186,4 +186,3 @@ var add_filter_button = () => {
 console.log("[melvor_hcco/combat_drops_only_complog] Loading...");
 setTimeout( () => setInterval(add_filter_button, 1000), 1000 );
 console.log("[melvor_hcco/combat_drops_only_complog] Done!");
-
