@@ -13,8 +13,9 @@
 // Made for version 1.0
 
 window.melvor_hcco_is_monster_loot = function (id) {
-	if(items[id].ignoreCompletion === true) return false // Ignore non-completion items
-	if(id === 524 || id === 525 || id == 526) return true // Manually adding in Pigtayle, Poraxx and Barrantoe herbs, as these come from Lucky Herb potions.
+	if(items[id].ignoreCompletion === true) return false; // Ignore non-completion items
+//	if(id === 524 || id === 525 || id == 526) return true // Manually adding in Pigtayle, Poraxx and Barrantoe herbs, as these come from Lucky Herb potions.
+	if(items.filter(x => x.type === 'Seeds' && x.tier === 'Herb').map(x => x["grownItemID"]).includes(id)) return true; // Programmatically search for any herb seeds and map them to their corresponding herb, then check those
 	if(id === 646) return true // Signet ring half b
 
 	for (let i=0; i<MONSTERS.length; i++) {
