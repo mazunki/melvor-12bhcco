@@ -13,12 +13,26 @@
 // Made for version 1.0
 
 window.melvor_hcco_is_monster_loot = function (id) {
+	if(items[id].ignoreCompletion === true) return false; // Ignore non-completion items
+//	if(id === 524 || id === 525 || id == 526) return true // Manually adding in Pigtayle, Poraxx and Barrantoe herbs, as these come from Lucky Herb potions.
+	if(items.filter(x => x.type === 'Seeds' && x.tier === 'Herb').map(x => x["grownItemID"]).includes(id)) return true; // Programmatically search for any herb seeds and map them to their corresponding herb, then check those
+	if(id === 646) return true // Signet ring half b
+
 	for (let i=0; i<MONSTERS.length; i++) {
+		if(id === MONSTERS[i].bones) return true; // Check for bone drops
 		let monster_loot = MONSTERS[i].lootTable;
 		for (let j=0; j<monster_loot.length; j++) {
 			if (monster_loot[j][0] === id) return true;
 		}
 	}
+	// Check dungeon specific loot, e.g. fire cape, air shard etc.
+	for (let i=0; i<DUNGEONS.length; i++) {
+		let dungeon_loot = DUNGEONS[i].rewards;
+		for (let j=0; j<dungeon_loot.length; j++) {
+			if (dungeon_loot[j] === id) return true;
+		}
+	}
+
 	return false;
 }
 
@@ -40,16 +54,23 @@ window.melvor_hcco_get_co_available = function () {
 
 	if (SHOP.Materials.length === undefined) return;
 	for (let i=0; i<SHOP.Materials.length; i++) {
+		if(SHOP.Materials[i].name === "Weird Gloop") continue; // Ignore weird gloop as we cannot get rune essence to buy it.
 		let grocery = SHOP.Materials[i];
 		for (let j=0; j<grocery.contains.items.length; j++) {
 			if (found_items.indexOf(grocery.contains.items[j][0]) == -1) { // avoid dupes
 				found_items[found_items.length] = grocery.contains.items[j][0];
 			}
 		}
-		
+
 	}
+
 	if (SHOP.Slayer.length === undefined) return;
 	for (let i=0; i<SHOP.Slayer.length; i++) {
+		if(SHOP.Slayer[i].name === "Necromancer Hat") continue;
+		if(SHOP.Slayer[i].name === "Necromancer Boots") continue;
+		if(SHOP.Slayer[i].name === "Necromancer Bottoms") continue;
+		if(SHOP.Slayer[i].name === "Necromancer Robes") continue; // These all have a Summoning requirement
+
 		let grocery = SHOP.Slayer[i];
 		for (let j=0; j<grocery.contains.items.length; j++) {
 			if (found_items.indexOf(grocery.contains.items[j][0]) == -1) { // avoid dupes
@@ -57,6 +78,8 @@ window.melvor_hcco_get_co_available = function () {
 			}
 		}
 	}
+
+
 	if (SHOP.Gloves.length === undefined) return;
 	for (let i=0; i<SHOP.Gloves.length; i++) {
 		let grocery = SHOP.Gloves[i];
@@ -186,4 +209,3 @@ var add_filter_button = () => {
 console.log("[melvor_hcco/combat_drops_only_complog] Loading...");
 setTimeout( () => setInterval(add_filter_button, 1000), 1000 );
 console.log("[melvor_hcco/combat_drops_only_complog] Done!");
-
