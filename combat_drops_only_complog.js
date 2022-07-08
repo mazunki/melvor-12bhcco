@@ -180,7 +180,7 @@ window.complog_filter_co_available = function () {
 }
 
 var add_filter_button = () => {
-	if ($("#completion-log-2")) {
+	if ($("#completion-log-2") && $("#completion-log-2").find(".col-12")[4]) {
 		itemlog = $("#completion-log-2");
 		buttonRow = itemlog.find(".col-12")[4];
 		monsterLootButton = $("<button>", {
