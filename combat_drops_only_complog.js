@@ -96,7 +96,7 @@ window.melvor_hcco_get_co_available = function () {
 		if (skillreqs === undefined) {
 			continue;  // completion cape has no skillLevel, but completionPercentage=100
 		}
-		let ok_skills = [ "Attack", "Strength", "Defense", "Hitpoints", "Ranged", "Magic", "Prayer", "Slayer" ];
+		let ok_skills = [ "Attack", "Strength", "Defence", "Hitpoints", "Ranged", "Magic", "Prayer", "Slayer" ];
 		let qualified = true;
 		for (let j=0; j<skillreqs.length; j++) {
 			if (ok_skills.indexOf(Skills[skillreqs[j][0]]) == -1) {
